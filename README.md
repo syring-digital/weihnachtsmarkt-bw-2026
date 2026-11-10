@@ -3,7 +3,7 @@
 Einfache Eintragsseite für Auf-/Abbauteam und Standbesetzung (05.–06.12.2026, Laupark).
 Kostenlos: Webseite auf GitHub Pages, Daten in einem Google Sheet (Apps Script als Backend).
 
-- `index.html` + `logo.png` – die Seite (kein Build nötig)
+- `index.html` + `logo-rotary.png`, `logo-lions.png` – die Seite (kein Build nötig)
 - `apps-script/Code.gs` – Backend; hier sind auch die **Schichten und Plätze** definiert
 - `.github/workflows/pages.yml` – veröffentlicht `index.html` auf GitHub Pages
 
