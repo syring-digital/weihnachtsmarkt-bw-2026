@@ -7,30 +7,32 @@
 <meta name="robots" content="noindex">
 <style>
   :root {
-    --bg: #f6f1e7; --card: #fff; --ink: #2b2b2b; --muted: #6b6b6b;
-    --green: #1f5d3a; --red: #a3262a; --line: #e2d9c6; --full: #ece8de;
+    --bg: #f4f6fa; --card: #fff; --ink: #1f2937; --muted: #5f6b7a;
+    --blue: #0f4c95; --blue-soft: #eaf1fa; --gold: #f29900; --line: #d9e0ea; --full: #eceef2;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
     font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
-  header { background: var(--green); color: #fff; padding: 24px 16px; }
+  header { background: #fff; border-bottom: 4px solid var(--blue); padding: 16px 16px 18px; }
   header .wrap { padding-bottom: 0; }
-  h1 { margin: 0 0 6px; font-size: 1.5rem; }
-  header p { margin: 2px 0; opacity: .95; }
-  h2 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--green); }
+  .logo { display: block; height: 56px; width: auto; margin: 0 0 12px -6px; }
+  h1 { margin: 0 0 6px; font-size: 1.4rem; color: var(--blue); }
+  header p { margin: 2px 0; color: var(--muted); }
+  header p strong { color: var(--ink); }
+  h2 { font-size: 1.1rem; margin: 28px 0 10px; color: var(--blue); }
   .slot { display: flex; gap: 12px; align-items: center; background: var(--card);
     border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px;
     margin-bottom: 10px; cursor: pointer; }
-  .slot:has(input:checked) { border-color: var(--green); background: #eef6f1; }
+  .slot:has(input:checked) { border-color: var(--blue); background: var(--blue-soft); }
   .slot.full { background: var(--full); color: var(--muted); cursor: not-allowed; }
-  .slot input { width: 22px; height: 22px; flex: none; accent-color: var(--green); }
+  .slot input { width: 22px; height: 22px; flex: none; accent-color: var(--blue); }
   .slot .t { font-weight: 600; }
   .slot .task { color: var(--muted); font-size: .9rem; }
   .slot .free { margin-left: auto; text-align: right; font-size: .9rem; white-space: nowrap; }
   .bar { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; overflow: hidden; min-width: 90px; }
-  .bar i { display: block; height: 100%; background: var(--green); }
-  .full .bar i { background: var(--red); }
+  .bar i { display: block; height: 100%; background: var(--blue); }
+  .full .bar i { background: var(--gold); }
   form { background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 24px; }
   label.f { display: block; font-weight: 600; margin: 12px 0 4px; }
   label.f small { font-weight: 400; color: var(--muted); }
@@ -39,15 +41,17 @@
   .clubs { display: flex; gap: 10px; }
   .clubs label { flex: 1; border: 2px solid var(--line); border-radius: 8px; padding: 12px;
     text-align: center; cursor: pointer; }
-  .clubs label:has(input:checked) { border-color: var(--green); background: #eef6f1; font-weight: 600; }
+  .clubs label:has(input:checked) { border-color: var(--blue); background: var(--blue-soft); font-weight: 600; }
   .clubs input { position: absolute; opacity: 0; pointer-events: none; }
   button { width: 100%; margin-top: 18px; padding: 14px; font-size: 1.05rem; font-weight: 600;
-    background: var(--red); color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+    background: var(--blue); color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+  button:hover { background: #0c3f7c; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
   button:disabled { opacity: .6; cursor: wait; }
   .hp { position: absolute; left: -9999px; }
   .msg { border-radius: 10px; padding: 12px 14px; margin-top: 16px; }
-  .msg.ok { background: #e3f2e9; border: 1px solid #a8d4b9; }
-  .msg.err { background: #fbe7e7; border: 1px solid #e3b0b1; }
+  .msg.ok { background: var(--blue-soft); border: 1px solid #b7cde8; }
+  .msg.err { background: #fff4e0; border: 1px solid #f2cf8f; }
   .note { color: var(--muted); font-size: .85rem; margin-top: 18px; }
   .demo { background: #fff3cd; border-bottom: 1px solid #e6d28a; padding: 8px 16px; font-size: .9rem; text-align: center; }
   .loading { padding: 24px; text-align: center; color: var(--muted); }
@@ -57,6 +61,7 @@
 <div id="demo" class="demo" hidden>Vorschau-Modus: Einträge werden nur lokal simuliert und nicht gespeichert.</div>
 <header>
   <div class="wrap">
+    <img class="logo" src="logo.png" alt="Rotary Club Bad Wildungen-Fritzlar" width="310" height="94">
     <h1>Weihnachtsmarkt Bad Wildungen 2026</h1>
     <p>Auf- und Abbauteam, Standbesetzung</p>
     <p><strong>05.–06.12.2026</strong> · Laupark (Nähe Brunnenallee 17)</p>
