@@ -18,7 +18,7 @@ var SLOTS = [
   { id: 'sa-3',      day: 'Samstag, 05.12.2026',  task: 'Standbesetzung', time: '19:00–22:00', cap: 15 },
   { id: 'so-1',      day: 'Sonntag, 06.12.2026',  task: 'Standbesetzung', time: '11:00–14:00', cap: 10 },
   { id: 'so-2',      day: 'Sonntag, 06.12.2026',  task: 'Standbesetzung', time: '14:00–17:00', cap: 15 },
-  { id: 'so-3',      day: 'Sonntag, 06.12.2026',  task: 'Standbesetzung', time: '12:00–20:00', cap: 15 },
+  { id: 'so-3',      day: 'Sonntag, 06.12.2026',  task: 'Standbesetzung', time: '17:00–20:00', cap: 15 },
   { id: 'so-abbau',  day: 'Sonntag, 06.12.2026',  task: 'Abbauteam',     time: 'ab 20:00 Uhr',  cap: 15 }
 ];
 

@@ -44,4 +44,4 @@ Diesen Link an die Clubpräsidenten schicken, sie leiten ihn an die Mitglieder w
 
 ## Annahmen (bitte prüfen)
 - Plätze pro Schicht: 15, Sonntag 11–14 Uhr: 10 (laut Vorlage „nicht erforderlich“ ab Person 11).
-- Schicht „12:00–20:00“ am Sonntag und Auf-/Abbauteam: 15 Plätze angenommen.
+- Schicht „17:00–20:00“ am Sonntag und Auf-/Abbauteam: 15 Plätze angenommen.
