@@ -16,7 +16,14 @@
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
   header { background: #fff; border-bottom: 4px solid var(--blue); padding: 16px 16px 18px; }
   header .wrap { padding-bottom: 0; }
-  .logo { display: block; height: 56px; width: auto; margin: 0 0 12px -6px; }
+  .head { display: flex; flex-direction: column; gap: 14px; }
+  .logos { display: flex; flex-direction: row; align-items: center; gap: 24px; }
+  .logos img { display: block; height: 48px; width: auto; }
+  @media (min-width: 640px) {
+    .head { flex-direction: row; align-items: center; gap: 28px; }
+    .logos { flex-direction: column; gap: 14px; width: 130px; flex: none; }
+    .logos img { height: auto; max-width: 120px; max-height: 64px; width: auto; }
+  }
   h1 { margin: 0 0 6px; font-size: 1.4rem; color: var(--blue); }
   header p { margin: 2px 0; color: var(--muted); }
   header p strong { color: var(--ink); }
@@ -61,11 +68,18 @@
 <div id="demo" class="demo" hidden>Vorschau-Modus: Einträge werden nur lokal simuliert und nicht gespeichert.</div>
 <header>
   <div class="wrap">
-    <img class="logo" src="logo.png" alt="Rotary Club Bad Wildungen-Fritzlar" width="310" height="94">
-    <h1>Weihnachtsmarkt Bad Wildungen 2026</h1>
-    <p>Auf- und Abbauteam, Standbesetzung</p>
-    <p><strong>05.–06.12.2026</strong> · Laupark (Nähe Brunnenallee 17)</p>
-    <p>Organisatoren: RC Bad Wildungen-Fritzlar &amp; Lions Bad Wildungen</p>
+    <div class="head">
+      <div class="logos">
+        <img src="logo-rotary.png" alt="Rotary Club Bad Wildungen-Fritzlar" width="216" height="94">
+        <img src="logo-lions.png" alt="Lions Club Bad Wildungen" width="105" height="99">
+      </div>
+      <div>
+        <h1>Weihnachtsmarkt Bad Wildungen 2026</h1>
+        <p>Auf- und Abbauteam, Standbesetzung</p>
+        <p><strong>05.–06.12.2026</strong> · Laupark (Nähe Brunnenallee 17)</p>
+        <p>Organisatoren: RC Bad Wildungen-Fritzlar &amp; Lions Bad Wildungen</p>
+      </div>
+    </div>
   </div>
 </header>
 

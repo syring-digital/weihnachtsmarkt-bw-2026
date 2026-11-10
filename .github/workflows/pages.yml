@@ -25,7 +25,7 @@ jobs:
       - name: Nur die Webseite veröffentlichen
         run: |
           mkdir _site
-          cp index.html logo.png _site/
+          cp index.html logo-rotary.png logo-lions.png _site/
       - uses: actions/upload-pages-artifact@v3
       - id: deployment
         uses: actions/deploy-pages@v4
