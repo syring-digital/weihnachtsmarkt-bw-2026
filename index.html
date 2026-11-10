@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weihnachtsmarkt 2026 – Schichtliste</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #f6f1e7; --card: #fff; --ink: #2b2b2b; --muted: #6b6b6b;
+    --green: #1f5d3a; --red: #a3262a; --line: #e2d9c6; --full: #ece8de;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
+  header { background: var(--green); color: #fff; padding: 24px 16px; }
+  header .wrap { padding-bottom: 0; }
+  h1 { margin: 0 0 6px; font-size: 1.5rem; }
+  header p { margin: 2px 0; opacity: .95; }
+  h2 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--green); }
+  .slot { display: flex; gap: 12px; align-items: center; background: var(--card);
+    border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px;
+    margin-bottom: 10px; cursor: pointer; }
+  .slot:has(input:checked) { border-color: var(--green); background: #eef6f1; }
+  .slot.full { background: var(--full); color: var(--muted); cursor: not-allowed; }
+  .slot input { width: 22px; height: 22px; flex: none; accent-color: var(--green); }
+  .slot .t { font-weight: 600; }
+  .slot .task { color: var(--muted); font-size: .9rem; }
+  .slot .free { margin-left: auto; text-align: right; font-size: .9rem; white-space: nowrap; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; overflow: hidden; min-width: 90px; }
+  .bar i { display: block; height: 100%; background: var(--green); }
+  .full .bar i { background: var(--red); }
+  form { background: var(--card); border: 2px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 24px; }
+  label.f { display: block; font-weight: 600; margin: 12px 0 4px; }
+  label.f small { font-weight: 400; color: var(--muted); }
+  input[type=text], input[type=tel] { width: 100%; padding: 12px; font-size: 16px;
+    border: 2px solid var(--line); border-radius: 8px; }
+  .clubs { display: flex; gap: 10px; }
+  .clubs label { flex: 1; border: 2px solid var(--line); border-radius: 8px; padding: 12px;
+    text-align: center; cursor: pointer; }
+  .clubs label:has(input:checked) { border-color: var(--green); background: #eef6f1; font-weight: 600; }
+  .clubs input { position: absolute; opacity: 0; pointer-events: none; }
+  button { width: 100%; margin-top: 18px; padding: 14px; font-size: 1.05rem; font-weight: 600;
+    background: var(--red); color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: wait; }
+  .hp { position: absolute; left: -9999px; }
+  .msg { border-radius: 10px; padding: 12px 14px; margin-top: 16px; }
+  .msg.ok { background: #e3f2e9; border: 1px solid #a8d4b9; }
+  .msg.err { background: #fbe7e7; border: 1px solid #e3b0b1; }
+  .note { color: var(--muted); font-size: .85rem; margin-top: 18px; }
+  .demo { background: #fff3cd; border-bottom: 1px solid #e6d28a; padding: 8px 16px; font-size: .9rem; text-align: center; }
+  .loading { padding: 24px; text-align: center; color: var(--muted); }
+</style>
+</head>
+<body>
+<div id="demo" class="demo" hidden>Vorschau-Modus: Einträge werden nur lokal simuliert und nicht gespeichert.</div>
+<header>
+  <div class="wrap">
+    <h1>Weihnachtsmarkt Bad Wildungen 2026</h1>
+    <p>Auf- und Abbauteam, Standbesetzung</p>
+    <p><strong>05.–06.12.2026</strong> · Laupark (Nähe Brunnenallee 17)</p>
+    <p>Organisatoren: RC Bad Wildungen-Fritzlar &amp; Lions Bad Wildungen</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form id="form" novalidate>
+    <p style="margin-top:0">Bitte Schicht(en) wählen und Namen eintragen. Mehrfachauswahl ist möglich.</p>
+    <div id="slots" class="loading">Lade Schichten …</div>
+
+    <label class="f" for="name">Name</label>
+    <input type="text" id="name" autocomplete="name" maxlength="80" required>
+
+    <label class="f">Club</label>
+    <div class="clubs">
+      <label><input type="radio" name="club" value="Rotary"> Rotary</label>
+      <label><input type="radio" name="club" value="Lions"> Lions</label>
+    </div>
+
+    <label class="f" for="phone">Telefon <small>(optional, für Rückfragen der Organisatoren)</small></label>
+    <input type="tel" id="phone" autocomplete="tel" maxlength="40">
+
+    <input class="hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <button type="submit" id="submit">Eintragen</button>
+    <div id="result" role="status" aria-live="polite"></div>
+  </form>
+
+  <p class="note">
+    Deine Angaben sind nur für die Organisatoren sichtbar; andere Teilnehmer sehen nur die Zahl der freien Plätze.
+    Zum Ändern oder Austragen bitte kurz bei den Organisatoren melden.
+  </p>
+</main>
+
+<script>
+// Hier die URL der Apps-Script-Web-App eintragen (siehe README.md).
+// Solange der Platzhalter steht, läuft die Seite im Vorschau-Modus.
+const API_URL = 'https://script.google.com/macros/s/AKfycbwaJyV7C6-3j-xtuNrtHK8RgdkgpBHA5r0W6chWUr3yfs0WTNwTr-Mbp-IUV5lzJkfa/exec';
+
+const DEMO = API_URL.startsWith('HIER_');
+let slots = [];
+
+// ---- Backend (oder Demo-Simulation) ----
+const demoSlots = [
+  ['sa-aufbau','Samstag, 05.12.2026','Aufbauteam','ab 10:00 Uhr',15,6],
+  ['sa-1','Samstag, 05.12.2026','Standbesetzung','13:00–16:00',15,15],
+  ['sa-2','Samstag, 05.12.2026','Standbesetzung','16:00–19:00',15,9],
+  ['sa-3','Samstag, 05.12.2026','Standbesetzung','19:00–22:00',15,2],
+  ['so-1','Sonntag, 06.12.2026','Standbesetzung','11:00–14:00',10,4],
+  ['so-2','Sonntag, 06.12.2026','Standbesetzung','14:00–17:00',15,0],
+  ['so-3','Sonntag, 06.12.2026','Standbesetzung','12:00–20:00',15,7],
+  ['so-abbau','Sonntag, 06.12.2026','Abbauteam','ab 20:00 Uhr',15,1],
+].map(([id,day,task,time,cap,taken]) => ({id,day,task,time,cap,taken}));
+
+async function apiList() {
+  if (DEMO) return { ok: true, slots: structuredClone(demoSlots) };
+  const r = await fetch(API_URL);
+  return r.json();
+}
+async function apiSignup(payload) {
+  if (DEMO) {
+    const booked = [], full = [];
+    payload.slots.forEach(id => {
+      const s = demoSlots.find(x => x.id === id);
+      if (s.taken >= s.cap) full.push(id); else { s.taken++; booked.push(id); }
+    });
+    return { ok: true, booked, full, duplicates: [], slots: structuredClone(demoSlots) };
+  }
+  // text/plain vermeidet den CORS-Preflight bei Apps Script
+  const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+  return r.json();
+}
+
+// ---- Darstellung ----
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function render() {
+  const checked = new Set([...document.querySelectorAll('#slots input:checked')].map(i => i.value));
+  let html = '', lastDay = '';
+  slots.forEach(s => {
+    if (s.day !== lastDay) { html += `<h2>${esc(s.day)}</h2>`; lastDay = s.day; }
+    const left = s.cap - s.taken, isFull = left <= 0;
+    html += `<label class="slot${isFull ? ' full' : ''}">
+      <input type="checkbox" value="${esc(s.id)}" ${isFull ? 'disabled' : ''} ${checked.has(s.id) && !isFull ? 'checked' : ''}>
+      <div><div class="t">${esc(s.time)}</div><div class="task">${esc(s.task)}</div></div>
+      <div class="free">${isFull ? 'Voll' : `${left} von ${s.cap} frei`}
+        <div class="bar"><i style="width:${Math.min(100, s.taken / s.cap * 100)}%"></i></div></div>
+    </label>`;
+  });
+  $('slots').className = '';
+  $('slots').innerHTML = html;
+}
+
+function label(id) { const s = slots.find(x => x.id === id); return s ? `${s.day.split(',')[0]} ${s.time} (${s.task})` : id; }
+function show(cls, html) { $('result').innerHTML = `<div class="msg ${cls}">${html}</div>`; }
+
+async function load() {
+  try {
+    const d = await apiList();
+    if (!d.ok) throw new Error();
+    slots = d.slots; render();
+  } catch (e) {
+    $('slots').className = 'loading';
+    $('slots').textContent = 'Schichten konnten nicht geladen werden. Bitte Seite neu laden.';
+  }
+}
+
+$('form').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const picked = [...document.querySelectorAll('#slots input:checked')].map(i => i.value);
+  const name = $('name').value.trim();
+  const club = (document.querySelector('input[name=club]:checked') || {}).value;
+  if (!picked.length) return show('err', 'Bitte mindestens eine Schicht auswählen.');
+  if (name.length < 2) return show('err', 'Bitte Namen angeben.');
+  if (!club) return show('err', 'Bitte Rotary oder Lions auswählen.');
+
+  const btn = $('submit'); btn.disabled = true; btn.textContent = 'Wird gespeichert …';
+  try {
+    const d = await apiSignup({ name, club, phone: $('phone').value.trim(), slots: picked, website: $('website').value });
+    if (!d.ok) { show('err', esc(d.error || 'Fehler beim Speichern.')); return; }
+    slots = d.slots;
+    let out = '';
+    if (d.booked.length) out += `<strong>Danke, ${esc(name)}! Eingetragen:</strong><ul>${d.booked.map(i => `<li>${esc(label(i))}</li>`).join('')}</ul>`;
+    if (d.duplicates.length) out += `<p>Schon eingetragen: ${d.duplicates.map(i => esc(label(i))).join(', ')}</p>`;
+    if (d.full.length) out += `<p><strong>Leider inzwischen voll:</strong> ${d.full.map(i => esc(label(i))).join(', ')}. Bitte eine andere Schicht wählen.</p>`;
+    show(d.booked.length ? 'ok' : 'err', out);
+    render();
+    if (d.booked.length) document.querySelectorAll('#slots input:checked').forEach(i => i.checked = false);
+  } catch (e) {
+    show('err', 'Verbindungsproblem. Bitte nochmal versuchen. Dein Eintrag wurde evtl. nicht gespeichert.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Eintragen';
+  }
+});
+
+if (DEMO) $('demo').hidden = false;
+load();
+</script>
+</body>
+</html>
