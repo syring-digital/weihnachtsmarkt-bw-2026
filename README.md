@@ -3,7 +3,7 @@
 Einfache Eintragsseite für Auf-/Abbauteam und Standbesetzung (05.–06.12.2026, Laupark).
 Kostenlos: Webseite auf GitHub Pages, Daten in einem Google Sheet (Apps Script als Backend).
 
-- `index.html` – die Seite (eine Datei, kein Build nötig)
+- `index.html` + `logo.png` – die Seite (kein Build nötig)
 - `apps-script/Code.gs` – Backend; hier sind auch die **Schichten und Plätze** definiert
 - `.github/workflows/pages.yml` – veröffentlicht `index.html` auf GitHub Pages
 
@@ -34,6 +34,9 @@ Diesen Link an die Clubpräsidenten schicken, sie leiten ihn an die Mitglieder w
 
 ## Betrieb
 - Alle Eintragungen stehen im Blatt „Eintragungen“ (Name, Club, Telefon, Schicht).
+- Zusätzlich werden die Namen automatisch in die Übersichtstabelle (Vorlage mit „Person 1 … Person 15“) geschrieben,
+  als „Name (Club)“. Die Zeilen je Schicht stehen in `OVERVIEW_ROWS` in `Code.gs`; ändert sich das Layout, dort anpassen.
+  Nach manuellem Löschen von Zeilen: Menü **Schichtliste → Übersicht aktualisieren**.
 - **Austragen:** Zeile im Sheet löschen – der Platz wird sofort wieder frei.
 - **Schichten/Plätze ändern:** `SLOTS` in `Code.gs` anpassen und eine **neue Version bereitstellen**
   (Bereitstellen → Bereitstellungen verwalten → Bearbeiten → Neue Version). Die URL bleibt gleich.
