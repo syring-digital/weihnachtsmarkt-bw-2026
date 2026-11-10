@@ -22,6 +22,12 @@ var SLOTS = [
   { id: 'so-abbau',  day: 'Sonntag, 06.12.2026',  task: 'Abbauteam',     time: 'ab 20:00 Uhr',  cap: 15 }
 ];
 
+// Zeile jeder Schicht in der Übersichtstabelle (die Vorlage mit "Person 1 … Person 15").
+// Namen werden ab Spalte C eingetragen. Das Blatt wird automatisch gefunden:
+// OVERVIEW_SHEET_NAME angeben, sonst wird das erste Blatt vor "Eintragungen" genommen.
+var OVERVIEW_SHEET_NAME = '';
+var OVERVIEW_ROWS = { 'sa-aufbau': 3, 'sa-1': 4, 'sa-2': 5, 'sa-3': 6, 'so-1': 8, 'so-2': 9, 'so-3': 10, 'so-abbau': 11 };
+
 function doGet() {
   return json_({ ok: true, slots: slotsWithCounts_(readCounts_()) });
 }
@@ -67,6 +73,7 @@ function doPost(e) {
       counts[id] = (counts[id] || 0) + 1;
       booked.push(id);
     });
+    try { updateOverview_(); } catch (err2) { /* Übersicht ist nur Komfort, Eintrag ist schon gespeichert */ }
     SpreadsheetApp.flush();
 
     return json_({ ok: true, booked: booked, full: full, duplicates: duplicates, slots: slotsWithCounts_(counts) });
@@ -75,6 +82,35 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/** Menü im Sheet: Übersicht nach manuellem Löschen/Ändern von Zeilen neu aufbauen. */
+function onOpen() {
+  SpreadsheetApp.getUi().createMenu('Schichtliste').addItem('Übersicht aktualisieren', 'updateOverview_').addToUi();
+}
+
+/** Schreibt die Namen aus "Eintragungen" in die Übersichtstabelle (Person 1, Person 2, …). */
+function updateOverview_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ov = OVERVIEW_SHEET_NAME ? ss.getSheetByName(OVERVIEW_SHEET_NAME) : null;
+  if (!ov) {
+    ov = ss.getSheets().filter(function (sh) { return sh.getName() !== SHEET_NAME; })[0];
+  }
+  if (!ov) return;
+
+  var names = {};
+  sheet_().getDataRange().getValues().slice(1).forEach(function (r) {
+    (names[r[1]] = names[r[1]] || []).push(r[5] + ' (' + r[6] + ')');
+  });
+
+  SLOTS.forEach(function (s) {
+    var row = OVERVIEW_ROWS[s.id];
+    if (!row) return;
+    var vals = [];
+    for (var i = 0; i < s.cap; i++) vals.push((names[s.id] || [])[i] || '');
+    // nur die Spalten bis zur Kapazität beschreiben (z. B. bleibt "nicht erforderlich" stehen)
+    ov.getRange(row, 3, 1, s.cap).setValues([vals]);
+  });
 }
 
 /** Einmalig im Apps-Script-Editor ausführen: legt das Tabellenblatt an. */
